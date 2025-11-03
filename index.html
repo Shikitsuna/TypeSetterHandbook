@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Typesetter Style Presets by Saki</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --panel-2: #f1f5f9;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e2e8f0;
+    }
+
+    html.is-dark {
+      --bg: #0b1220;
+      --panel: #0f172a;
+      --panel-2: #0b1324;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --border: #334155;
+    }
+
+    body {
+      background: var(--bg) !important;
+      color: var(--text) !important;
+    }
+
+    .ts-panel {
+      background: var(--panel) !important;
+      border-color: var(--border) !important;
+    }
+
+    .ts-panel-2 {
+      background: var(--panel-2) !important;
+      border-color: var(--border) !important;
+    }
+
+    .ts-text {
+      color: var(--text) !important;
+    }
+
+    .ts-muted {
+      color: var(--muted) !important;
+    }
+
+    .ts-border {
+      border-color: var(--border) !important;
+    }
+
+    .ts-input {
+      background: var(--panel) !important;
+      color: var(--text) !important;
+      border-color: var(--border) !important;
+    }
+
+    .ts-badge {
+      border-color: var(--border) !important;
+      background: var(--panel-2) !important;
+      color: var(--muted) !important;
+    }
+
+    .ts-surface {
+      background: var(--panel) !important;
+    }
+
+    .shadow-soft {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, .08), 0 2px 8px rgba(0, 0, 0, .05);
+    }
+
+    .font-preview {
+      line-height: 1.15;
+      transition: transform .08s ease;
+      word-break: break-word;
+    }
+
+    .font-preview:active {
+      transform: scale(.99);
+    }
+
+    .with-stroke {
+      text-shadow: -1px -1px 0 var(--stroke, #000), 1px -1px 0 var(--stroke, #000), -1px 1px 0 var(--stroke, #000), 1px 1px 0 var(--stroke, #000);
+    }
+
+    .dm-track {
+      width: 3rem;
+      height: 1.5rem;
+      border-radius: 9999px;
+      background: #cbd5e1;
+      position: relative;
+      transition: background .2s;
+      border: 1px solid var(--border) !important;
+    }
+
+    html.is-dark .dm-track {
+      background: #475569;
+    }
+
+    .dm-knob {
+      position: absolute;
+      top: 0.125rem;
+      left: 0.125rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 9999px;
+      background: #fff;
+      transition: transform .2s;
+    }
+
+    html.is-dark .dm-knob {
+      transform: translateX(1.5rem);
+      background: #e2e8f0;
+    }
+
+    .ts-preview {
+      background: var(--panel-2) !important;
+    }
+
+    article {
+      break-inside: avoid;
+    }
+
+    #grid article {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 80px;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+  <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold tracking-tight ts-text">Typesetter Style Presets by Saki</h1>
+      <p class="mt-2 ts-muted">Curated fonts for <span class="font-semibold">Normal Dialog</span>, <span
+          class="font-semibold">Shouting Dialog</span>, <span class="font-semibold">Fighting SFX</span>, and <span
+          class="font-semibold">Other SFX</span>. Filter, preview, and copy names. Google Fonts online + local embeds.
+      </p>
+    </div>
+    <label class="inline-flex items-center gap-3 select-none cursor-pointer ts-text">
+      <span class="text-sm">Light</span>
+      <input id="dm" type="checkbox" class="hidden" />
+      <span class="dm-track"><span class="dm-knob"></span></span>
+      <span class="text-sm">Dark</span>
+    </label>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+    <!-- Controls -->
+    <section class="grid gap-4 md:grid-cols-12 items-end mb-6">
+      <div class="md:col-span-5 ts-panel border rounded-2xl p-4 shadow-soft">
+        <label class="block text-sm font-medium ts-text">Search by name, tag, or source</label>
+        <input id="q" type="text" placeholder="e.g. Wild Words, sfx, google"
+          class="mt-2 w-full rounded-xl ts-input px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      </div>
+      <div class="md:col-span-4 ts-panel border rounded-2xl p-4 shadow-soft">
+        <label class="block text-sm font-medium ts-text">Category</label>
+        <select id="catSelect" class="mt-2 w-full rounded-xl ts-input px-3 py-2"></select>
+      </div>
+
+      <div class="md:col-span-3 ts-panel border rounded-2xl p-4 shadow-soft">
+        <label class="block text-sm font-medium ts-text">Sort</label>
+        <select id="sort" class="mt-2 w-full rounded-xl ts-input px-3 py-2">
+          <option value="name">A → Z</option>
+          <option value="source">Source</option>
+          <option value="category">Category</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Preview controls -->
+    <section class="ts-panel border rounded-2xl shadow-soft p-4 mb-6 grid gap-3 md:grid-cols-12">
+      <div class="md:col-span-5">
+        <label class="block text-sm font-medium ts-text">Preview text</label>
+        <input id="sample" type="text" value="It's37!?&* [)>" class="mt-2 w-full rounded-xl ts-input px-3 py-2" />
+        <div class="mt-2 flex gap-3 text-sm ts-muted">
+          <label class="inline-flex items-center gap-2"><input id="upper" type="checkbox" /> UPPERCASE</label>
+          <label class="inline-flex items-center gap-2"><input id="stroke" type="checkbox" /> Stroke</label>
+        </div>
+      </div>
+      <div class="md:col-span-4 grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium ts-text">Font size (<span id="sizeVal">35</span>px)</label>
+          <input id="size" type="range" min="18" max="96" value="35" class="w-full" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium ts-text">Letter spacing (<span id="trackVal">0</span>px)</label>
+          <input id="track" type="range" min="-1" max="6" step="0.5" value="0" class="w-full" />
+        </div>
+      </div>
+      <div class="md:col-span-3">
+        <p class="text-sm ts-muted">Tip: If a font is not installed and not from Google Fonts, the preview uses a
+          fallback. Click a name to copy it. Use the link icon to open its source page.</p>
+      </div>
+    </section>
+
+    <!-- Dynamic masonry layout -->
+    <section id="grid" class="grid auto-rows-auto sm:grid-cols-2 lg:grid-cols-3 gap-4"></section>
+    <!-- Legend -->
+    <section class="mt-10 ts-panel border rounded-2xl shadow-soft p-6">
+      <h2 class="text-xl font-semibold ts-text">How to use this guide</h2>
+      <ol class="list-decimal pl-6 mt-3 space-y-2 ts-muted">
+        <li>Pick a <span class="font-semibold ts-text">category</span> first (dialog vs SFX). Dialog fonts should be
+          legible; SFX can be louder.</li>
+        <li>Use <span class="font-semibold ts-text">UPPERCASE</span> for English dialogue unless your project differs.
+        </li>
+        <li><span class="font-semibold ts-text">Shouting</span>: bold sans fonts with tighter tracking, optional stroke.
+        </li>
+        <li><span class="font-semibold ts-text">SFX</span>: test outlines and readability at print resolution.</li>
+        <li>Always <span class="font-semibold ts-text">check the license</span>, especially for DaFont/Blambot fonts.
+        </li>
+      </ol>
+    </section>
+  </main>
+  <script src="font.js"></script>
+  <script>
+    // ================ FONT LOADERS ================
+    function loadGoogleFontIfNeeded(name) {
+      if (document.querySelector(`link[data-font='${name}']`)) return;
+      const f = FONTS.find(f => f.name === name);
+      if (!f || f.source !== 'google') return;
+      const link = document.createElement('link');
+      link.dataset.font = name;
+      link.href = `https://fonts.googleapis.com/css2?family=${name.replaceAll(' ', '+')}:wght@400;600;700&display=swap`;
+      link.rel = 'stylesheet';
+      document.head.appendChild(link);
+    }
+
+    function loadFontEmbed(item) {
+      if (!item.embed) return;
+      const style = document.createElement('style');
+      const isWOFF = /\.woff2?$/.test(item.embed);
+      const format = isWOFF ? (item.embed.endsWith('2') ? 'woff2' : 'woff') : 'truetype';
+      style.textContent = `@font-face{font-family:'${item.name}';src:url('${item.embed}') format('${format}');font-display:swap;}`;
+      document.head.appendChild(style);
+    }
+
+    async function ensureFont(item) {
+      if (item.source === 'google') loadGoogleFontIfNeeded(item.name); else loadFontEmbed(item);
+      await document.fonts.ready;
+      try { await document.fonts.load(`16px '${item.name}'`); } catch (e) { }
+      return document.fonts.check(`16px '${item.name}'`);
+    }
+
+    const grid = document.getElementById('grid');
+    const q = document.getElementById('q');
+    const sample = document.getElementById('sample');
+    const upper = document.getElementById('upper');
+    const size = document.getElementById('size');
+    const track = document.getElementById('track');
+    const stroke = document.getElementById('stroke');
+    const sizeVal = document.getElementById('sizeVal');
+    const trackVal = document.getElementById('trackVal');
+    const sortSel = document.getElementById('sort');
+    let currentCat = 'all';
+
+    // ================= CATEGORY BUILDER =================
+    function buildCategorySelect() {
+      const cats = new Set();
+      FONTS.forEach(f => (f.tags || []).forEach(t => cats.add(t)));
+      const sorted = Array.from(cats).sort((a, b) => a.localeCompare(b));
+      const sel = document.getElementById('catSelect');
+      if (!sel) return;
+      sel.innerHTML = '<option value="all">All categories</option>';
+      sorted.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        sel.appendChild(opt);
+      });
+      sel.addEventListener('change', () => {
+        currentCat = sel.value;
+        render();
+      });
+    }
+
+    // ================= RENDER =================
+    function matchesFilter(item) {
+      const text = (q.value || '').toLowerCase();
+      const selected = currentCat === 'all' ? [] : [currentCat];
+      const inCat = selected.length === 0 || (item.tags || []).some(t => selected.includes(t));
+      const hay = [item.name, item.source, ...(item.tags || []), item.notes || '']
+        .join(' ').toLowerCase();
+      return inCat && hay.includes(text);
+    }
+
+    function doSort(a, b) {
+      const mode = sortSel?.value || 'name';
+      if (mode === 'source') return a.source.localeCompare(b.source) || a.name.localeCompare(b.name);
+      if (mode === 'category') return (a.tags?.[0] || '').localeCompare((b.tags?.[0] || '')) || a.name.localeCompare(b.name);
+      return a.name.localeCompare(b.name);
+    }
+
+    function applyPreviewStyle(el, fontName) {
+      el.style.fontFamily = `'${fontName}', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif`;
+      el.style.fontSize = (size?.value || 35) + 'px';
+      el.style.letterSpacing = (track?.value || 0) + 'px';
+      el.style.textTransform = upper?.checked ? 'uppercase' : 'none';
+      if (stroke?.checked) {
+        el.classList.add('with-stroke');
+        el.style.setProperty('--stroke', '#000');
+        el.style.color = '#fff';
+        el.style.padding = '6px 8px';
+        el.style.background = '#111';
+      } else {
+        el.classList.remove('with-stroke');
+        el.style.removeProperty('--stroke');
+        el.style.color = 'inherit';
+        el.style.background = 'transparent';
+        el.style.padding = '0';
+      }
+    }
+
+    async function render() {
+      grid.innerHTML = '';
+      const data = FONTS.filter(matchesFilter).sort(doSort);
+      for (const item of data) {
+        const ok = await ensureFont(item);
+        const card = document.createElement('article');
+        card.className = 'ts-panel border rounded-2xl p-4 shadow-soft mb-4 break-inside-avoid';
+
+        const header = document.createElement('div');
+        header.className = 'flex items-start justify-between gap-3';
+        header.innerHTML = `
+          <div>
+            <button class="font-semibold hover:underline ts-text" title="Click to copy">${item.name}${ok ? '' : ' <span title="Font failed to load">⚠️</span>'}</button>
+            <div class="mt-1 flex flex-wrap gap-2 text-xs">
+              ${(item.tags || []).slice(0, 3).map(t => `<span class='ts-badge ts-border inline-block px-2 py-0.5 text-xs rounded-full border'>${t}</span>`).join('')}
+              <span class='ts-badge ts-border inline-block px-2 py-0.5 text-xs rounded-full border'>${item.source}</span>
+            </div>
+          </div>
+          <a href="${item.url}" target="_blank" rel="noopener" class="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-xl ts-border border hover:opacity-80" title="Open source page" aria-label="Open link">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ts-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="m15 3 6 0 0 6"/><path d="M10 14 21 3"/></svg>
+          </a>`;
+
+        const preview = document.createElement('div');
+        preview.className = 'font-preview ts-preview rounded-xl p-4';
+        const line = document.createElement('div');
+        line.textContent = (sample?.value || 'Sample');
+        applyPreviewStyle(line, item.name);
+        preview.appendChild(line);
+
+        const meta = document.createElement('p');
+        meta.className = 'text-xs ts-muted';
+        meta.textContent = item.notes || '';
+
+        card.append(header, preview, meta);
+        grid.appendChild(card);
+
+        const copyBtn = header.querySelector('button');
+        copyBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(item.name);
+            copyBtn.innerHTML = item.name + ' ✓';
+            setTimeout(() => copyBtn.innerHTML = item.name + (ok ? '' : ' <span title="Font failed to load">⚠️</span>'), 1000);
+          } catch (e) { }
+        });
+      }
+    }
+
+    // EVENTS
+    ;[q, sample, upper, size, track, stroke, sortSel].forEach(el => el?.addEventListener('input', () => {
+      if (sizeVal) sizeVal.textContent = size.value;
+      if (trackVal) trackVal.textContent = track.value;
+      render();
+    }));
+
+    const dm = document.getElementById('dm');
+    function applyTheme() { document.documentElement.classList.toggle('is-dark', dm.checked); }
+    dm.addEventListener('change', applyTheme);
+
+    // Init
+    buildCategorySelect();
+    applyTheme();
+    render();
+  </script>
+</body>
+
+</html>
