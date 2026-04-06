@@ -1,0 +1,26 @@
+# ── Local font files (commercial / DaFont fonts go in fonts/ locally but are NOT pushed) ──
+fonts/
+
+# ── Design reference archives (Stitch exports, etc.) ──
+*.zip
+stitch/
+
+# ── OS junk ──
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor / IDE ──
+.vscode/
+.idea/
+*.suo
+*.user
+
+# ── Node (if ever used locally) ──
+node_modules/
+npm-debug.log*
+
+# ── Misc ──
+*.log
+*.tmp
+*.bak

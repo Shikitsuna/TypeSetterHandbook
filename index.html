@@ -1,367 +1,938 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Typesetter Style Presets by Saki</title>
+  <title>Typesetter Style Presets — The Editorial Archive</title>
+  <meta name="description" content="Curated font presets for manga & comics typesetting. Filter, preview, and copy font names." />
+
+  <!-- Google Fonts UI — cloud only, no local files -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
+    /* ── CSS Variables: ALL color theming lives here ─────────────── */
     :root {
-      --bg: #f8fafc;
-      --panel: #ffffff;
-      --panel-2: #f1f5f9;
-      --text: #0f172a;
-      --muted: #475569;
-      --border: #e2e8f0;
+      --bg:           #f6fafe;
+      --bg-low:       #f0f4f8;
+      --bg-card:      #ffffff;
+      --bg-ctrl:      #e4e9ed;
+      --bg-chip:      #eaeef2;
+      --bg-chip-sel:  #d5e3fd;
+      --text:         #171c1f;
+      --text-muted:   #45464d;
+      --text-faint:   #76777d;
+      --chip-sel-fg:  #57657b;
+      --border:       rgba(198,198,205,0.18);
+      --shadow:       rgba(23,28,31,0.07);
+      --nav-bg:       #f6fafe;
+      --sidebar-bg:   #f0f4f8;
+      --tint:         #565e74;
+    }
+    html.dark {
+      --bg:           #0f172a;
+      --bg-low:       #1e293b;
+      --bg-card:      #1e293b;
+      --bg-ctrl:      #334155;
+      --bg-chip:      #2d3f55;
+      --bg-chip-sel:  #1e3a5f;
+      --text:         #e2e8f0;
+      --text-muted:   #94a3b8;
+      --text-faint:   #64748b;
+      --chip-sel-fg:  #93c5fd;
+      --border:       rgba(51,65,85,0.5);
+      --shadow:       rgba(0,0,0,0.3);
+      --nav-bg:       #0f172a;
+      --sidebar-bg:   #1e293b;
+      --tint:         #93c5fd;
     }
 
-    html.is-dark {
-      --bg: #0b1220;
-      --panel: #0f172a;
-      --panel-2: #0b1324;
-      --text: #e2e8f0;
-      --muted: #94a3b8;
-      --border: #334155;
-    }
-
+    /* ── Base ──────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
     body {
-      background: var(--bg) !important;
-      color: var(--text) !important;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background .2s, color .2s;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;
+      user-select: none;
     }
 
-    .ts-panel {
-      background: var(--panel) !important;
-      border-color: var(--border) !important;
+    /* ── Top nav ───────────────────────────────────────────────────── */
+    #topnav {
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--border);
     }
 
-    .ts-panel-2 {
-      background: var(--panel-2) !important;
-      border-color: var(--border) !important;
+    /* ── Sidebar ───────────────────────────────────────────────────── */
+    #sidebar {
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
     }
 
-    .ts-text {
-      color: var(--text) !important;
+    /* ── Controls bar ──────────────────────────────────────────────── */
+    #ctrl-bar {
+      background: var(--bg-low);
+      border-bottom: 1px solid var(--border);
     }
 
-    .ts-muted {
-      color: var(--muted) !important;
+    /* ── Search input ──────────────────────────────────────────────── */
+    #q {
+      background: var(--bg-ctrl);
+      color: var(--text);
+      border: none;
+      outline: none;
+    }
+    #q::placeholder { color: var(--text-faint); }
+    #q:focus { box-shadow: 0 0 0 2px var(--tint); }
+
+    /* ── Slider ────────────────────────────────────────────────────── */
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      background: var(--bg-ctrl);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--text);
+      cursor: pointer;
     }
 
-    .ts-border {
-      border-color: var(--border) !important;
+    /* ── Inline text input (preview text) ─────────────────────────── */
+    .text-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+    }
+    .text-input::placeholder { color: var(--text-faint); }
+
+    /* ── Select ────────────────────────────────────────────────────── */
+    select {
+      background: var(--bg-ctrl);
+      color: var(--text);
+      border: none;
+      outline: none;
+      cursor: pointer;
+      border-radius: 0.5rem;
+      padding: 6px 10px;
+      font-size: 12px;
     }
 
-    .ts-input {
-      background: var(--panel) !important;
-      color: var(--text) !important;
-      border-color: var(--border) !important;
+    /* ── Ctrl buttons (AA, Stroke, …) ──────────────────────────────── */
+    .ctrl-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 12px;
+      border-radius: 0.75rem;
+      background: var(--bg-ctrl);
+      color: var(--text-muted);
+      font-size: 11px; font-weight: 700;
+      border: none; cursor: pointer;
+      transition: background .15s, color .15s;
+      white-space: nowrap;
+      user-select: none;
     }
+    .ctrl-btn:hover { background: var(--bg-chip-sel); color: var(--chip-sel-fg); }
+    .ctrl-btn.active { background: var(--bg-chip-sel); color: var(--chip-sel-fg); }
 
-    .ts-badge {
-      border-color: var(--border) !important;
-      background: var(--panel-2) !important;
-      color: var(--muted) !important;
+    /* ── Category nav items ────────────────────────────────────────── */
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px;
+      border-radius: 0.5rem;
+      color: var(--text-muted);
+      cursor: pointer; border: none;
+      background: transparent;
+      font-size: 13px; text-align: left; width: 100%;
+      transition: background .15s, color .15s;
     }
+    .nav-item:hover { background: var(--bg-ctrl); color: var(--text); }
+    .nav-item.active { background: var(--bg-card); color: var(--text); font-weight: 600; }
 
-    .ts-surface {
-      background: var(--panel) !important;
-    }
-
-    .shadow-soft {
-      box-shadow: 0 10px 25px rgba(0, 0, 0, .08), 0 2px 8px rgba(0, 0, 0, .05);
-    }
-
-    .font-preview {
-      line-height: 1.15;
-      transition: transform .08s ease;
-      word-break: break-word;
-    }
-
-    .font-preview:active {
-      transform: scale(.99);
-    }
-
-    .with-stroke {
-      text-shadow: -1px -1px 0 var(--stroke, #000), 1px -1px 0 var(--stroke, #000), -1px 1px 0 var(--stroke, #000), 1px 1px 0 var(--stroke, #000);
-    }
-
-    .dm-track {
-      width: 3rem;
-      height: 1.5rem;
+    /* ── Filter chips ──────────────────────────────────────────────── */
+    .chip {
+      padding: 5px 12px;
       border-radius: 9999px;
-      background: #cbd5e1;
-      position: relative;
-      transition: background .2s;
-      border: 1px solid var(--border) !important;
+      font-size: 11px; font-weight: 500;
+      cursor: pointer; border: none;
+      background: var(--bg-chip);
+      color: var(--text-muted);
+      transition: background .15s, color .15s;
     }
+    .chip:hover { background: var(--bg-chip-sel); color: var(--chip-sel-fg); }
+    .chip.active { background: var(--bg-chip-sel); color: var(--chip-sel-fg); font-weight: 700; }
 
-    html.is-dark .dm-track {
-      background: #475569;
-    }
-
-    .dm-knob {
-      position: absolute;
-      top: 0.125rem;
-      left: 0.125rem;
-      width: 1.25rem;
-      height: 1.25rem;
-      border-radius: 9999px;
-      background: #fff;
-      transition: transform .2s;
-    }
-
-    html.is-dark .dm-knob {
-      transform: translateX(1.5rem);
-      background: #e2e8f0;
-    }
-
-    .ts-preview {
-      background: var(--panel-2) !important;
-    }
-
-    article {
+    /* ── Font cards ────────────────────────────────────────────────── */
+    .font-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 20px;
       break-inside: avoid;
+      margin-bottom: 20px;
+      transition: box-shadow .25s, transform .15s;
+    }
+    .font-card:hover {
+      box-shadow: 0 10px 30px var(--shadow);
+      transform: translateY(-2px);
     }
 
-    #grid article {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 80px;
+    /* ── Tag pills inside cards ────────────────────────────────────── */
+    .tag {
+      font-size: 9px; font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      background: var(--bg-chip);
+      color: var(--text-muted);
+    }
+    .tag.cat { background: var(--bg-chip-sel); color: var(--chip-sel-fg); }
+
+    /* ── Preview text ──────────────────────────────────────────────── */
+    .preview-text {
+      line-height: 1.15;
+      word-break: break-word;
+      min-height: 2em;
+    }
+
+    /* ── Stroke mode ── hollow outline, no background change ───────── */
+    .preview-text.stroke {
+      -webkit-text-stroke: 3px var(--text);
+      color: transparent;
+    }
+    html.dark .preview-text.stroke {
+      -webkit-text-stroke: 3px var(--text);
+      color: transparent;
+    }
+    /* Wrapper: no change in stroke mode */
+
+    /* ── Advanced search panel ────────────────────────────────────── */
+    #adv-panel {
+      background: var(--bg-low);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      transition: max-height .25s ease, padding .25s ease;
+      max-height: 0;
+      padding: 0 20px;
+    }
+    #adv-panel.open {
+      max-height: 300px;
+      padding: 14px 20px;
+    }
+    .adv-chip {
+      display: inline-flex; align-items: center;
+      padding: 4px 11px;
+      border-radius: 9999px;
+      font-size: 11px; font-weight: 500;
+      cursor: pointer; border: none;
+      background: var(--bg-chip);
+      color: var(--text-muted);
+      transition: background .12s, color .12s;
+      margin: 3px 3px 3px 0;
+    }
+    .adv-chip:hover { background: var(--bg-chip-sel); color: var(--chip-sel-fg); }
+    .adv-chip.active { background: var(--bg-chip-sel); color: var(--chip-sel-fg); font-weight: 700; }
+    .adv-section-label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-faint); margin-bottom: 6px; margin-top: 12px;
+    }
+    .adv-section-label:first-child { margin-top: 0; }
+
+    /* ── Masonry ───────────────────────────────────────────────────── */
+    .masonry { column-count: 1; column-gap: 20px; }
+    @media (min-width: 640px)  { .masonry { column-count: 2; } }
+    @media (min-width: 1280px) { .masonry { column-count: 3; } }
+
+    /* ── Copy flash ────────────────────────────────────────────────── */
+    @keyframes flash { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .flashing { animation: flash .35s ease; }
+
+    /* ── Glass (mobile nav) ────────────────────────────────────────── */
+    .glass {
+      background: rgba(246,250,254,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    html.dark .glass {
+      background: rgba(15,23,42,0.88);
+    }
+
+    /* ── Sig gradient button ───────────────────────────────────────── */
+    .sig-grad { background: linear-gradient(135deg,#000 0%,#131b2e 100%); }
+
+    /* ── Section heading in sidebar ────────────────────────────────── */
+    .sidebar-label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 8px;
+    }
+
+    /* ── Footer ────────────────────────────────────────────────────── */
+    #page-footer {
+      border-top: 1px solid var(--border);
+      background: var(--bg-low);
     }
   </style>
 </head>
 
-<body class="min-h-screen">
-  <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
-    <div>
-      <h1 class="text-3xl font-bold tracking-tight ts-text">Typesetter Style Presets by Saki</h1>
-      <p class="mt-2 ts-muted">Curated fonts for <span class="font-semibold">Normal Dialog</span>, <span
-          class="font-semibold">Shouting Dialog</span>, <span class="font-semibold">Fighting SFX</span>, and <span
-          class="font-semibold">Other SFX</span>. Filter, preview, and copy names. Google Fonts online + local embeds.
-      </p>
-      <p class="">
-        <a href="https://forms.gle/RXnsY6APGu7Z74f38" target="_blank" class="text-blue-500 font-semibold hover:underline">
-          SUBMIT FONTS HERE
-        </a>
-        To add more fonts to this gallery, google fonts are preferable
-      </p>
+<body>
+
+<!-- ═══════════════════ TOP NAV ═══════════════════ -->
+<nav id="topnav" class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16">
+  <div style="font-size:18px;font-weight:800;letter-spacing:-.03em;">The Editorial Archive</div>
+
+  <div class="hidden md:flex items-center gap-8" style="font-size:13px;font-weight:500;">
+    <a href="#" style="border-bottom:2px solid var(--text);padding-bottom:2px;color:var(--text)">Explorer</a>
+    <!-- Handbook disabled — coming soon -->
+    <span title="Coming soon" style="color:var(--text-faint);cursor:not-allowed;">Handbook</span>
+    <a href="https://forms.gle/RXnsY6APGu7Z74f38" target="_blank" rel="noopener"
+       style="color:var(--text-muted);display:flex;align-items:center;gap:4px;"
+       class="hover:text-current transition-colors">
+      Submit
+      <span class="material-symbols-outlined" style="font-size:14px;">open_in_new</span>
+    </a>
+  </div>
+
+  <button id="dm-btn" title="Toggle dark mode" style="
+    border:none;background:transparent;cursor:pointer;
+    padding:8px;border-radius:50%;color:var(--text);
+    display:flex;align-items:center;transition:background .15s;
+  "
+  onmouseover="this.style.background='var(--bg-ctrl)'"
+  onmouseout="this.style.background='transparent'">
+    <span class="material-symbols-outlined">dark_mode</span>
+  </button>
+</nav>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<aside id="sidebar" class="hidden md:flex" style="
+  position:fixed;left:0;top:64px;
+  height:calc(100vh - 64px);width:240px;
+  flex-direction:column;padding:20px 16px;gap:20px;
+  overflow-y:auto;z-index:40;
+">
+  <div>
+    <div style="font-size:15px;font-weight:700;color:var(--text)">Library Explorer</div>
+    <div style="font-size:11px;color:var(--text-faint);margin-top:2px">Filters &amp; Categories</div>
+  </div>
+
+  <!-- Category -->
+  <div>
+    <div class="sidebar-label">Category</div>
+    <div id="cat-filters" style="display:flex;flex-direction:column;gap:2px;">
+      <button class="nav-item active" data-cat="">
+        <span class="material-symbols-outlined" style="font-size:16px;">select_all</span> All
+      </button>
+      <button class="nav-item" data-cat="dialogue">
+        <span class="material-symbols-outlined" style="font-size:16px;">chat_bubble</span> Dialogue
+      </button>
+      <button class="nav-item" data-cat="sfx">
+        <span class="material-symbols-outlined" style="font-size:16px;">bolt</span> SFX / Action
+      </button>
+      <button class="nav-item" data-cat="horror">
+        <span class="material-symbols-outlined" style="font-size:16px;">skull</span> Horror / Dark
+      </button>
+      <button class="nav-item" data-cat="romance">
+        <span class="material-symbols-outlined" style="font-size:16px;">favorite</span> Romance
+      </button>
+      <button class="nav-item" data-cat="title">
+        <span class="material-symbols-outlined" style="font-size:16px;">title</span> Titles
+      </button>
+      <button class="nav-item" data-cat="narration">
+        <span class="material-symbols-outlined" style="font-size:16px;">article</span> Narration
+      </button>
+      <button class="nav-item" data-cat="handwritten">
+        <span class="material-symbols-outlined" style="font-size:16px;">edit</span> Handwritten
+      </button>
+    </div>
+  </div>
+
+  <!-- Source -->
+  <div>
+    <div class="sidebar-label">Source</div>
+    <div id="src-filters" style="display:flex;flex-wrap:wrap;gap:6px;">
+      <button class="chip active" data-src="">All</button>
+      <button class="chip" data-src="google">Google</button>
+      <button class="chip" data-src="commercial">Commercial</button>
+      <button class="chip" data-src="dafont">DaFont</button>
+      <button class="chip" data-src="blambot">Blambot</button>
+    </div>
+  </div>
+
+  <!-- Sort -->
+  <div>
+    <div class="sidebar-label">Sort</div>
+    <select id="sort">
+      <option value="name">A → Z by Name</option>
+      <option value="source">By Source</option>
+    </select>
+  </div>
+
+  <!-- Reset -->
+  <button id="reset-btn" style="
+    margin-top:auto;width:100%;padding:10px;
+    border:2px solid var(--border);border-radius:12px;
+    background:transparent;color:var(--text-muted);
+    font-size:12px;font-weight:700;cursor:pointer;
+    transition:background .15s;
+  "
+  onmouseover="this.style.background='var(--bg-ctrl)'"
+  onmouseout="this.style.background='transparent'">
+    Reset Filters
+  </button>
+</aside>
+
+<!-- ═══════════════════ MAIN ═══════════════════ -->
+<main style="padding-top:64px;" class="md:ml-60">
+
+  <!-- ── Sticky controls bar ── -->
+  <div id="ctrl-bar" style="
+    position:sticky;top:64px;z-index:30;
+    padding:10px 20px 8px;
+    display:flex;flex-direction:column;gap:8px;
+  ">
+    <!-- Row 1: Search + toggle buttons -->
+    <div style="display:flex;gap:8px;align-items:center;">
+      <!-- Search -->
+      <div style="position:relative;flex:1;min-width:0;">
+        <span class="material-symbols-outlined" style="
+          position:absolute;left:12px;top:50%;transform:translateY(-50%);
+          font-size:18px;color:var(--text-faint);pointer-events:none;
+        ">search</span>
+        <input id="q" type="text"
+          placeholder="Search name, tag, style, emotion…"
+          style="
+            width:100%;padding:9px 12px 9px 38px;
+            border-radius:12px;font-size:13px;
+          " />
+      </div>
+
+      <!-- Uppercase toggle -->
+      <button id="upper-btn" class="ctrl-btn" title="Toggle UPPERCASE">
+        <span class="material-symbols-outlined" style="font-size:16px;">title</span> AA
+      </button>
+
+      <!-- Stroke toggle -->
+      <button id="stroke-btn" class="ctrl-btn" title="Toggle stroke outline">
+        <span class="material-symbols-outlined" style="font-size:16px;">border_color</span> Stroke
+      </button>
+
+      <!-- Advanced search toggle -->
+      <button id="adv-btn" class="ctrl-btn" title="Advanced search filters">
+        <span class="material-symbols-outlined" style="font-size:16px;">tune</span> Advanced
+      </button>
+    </div>
+
+    <!-- Row 2: Sliders + sample text (horizontally scrollable) -->
+    <div style="display:flex;gap:8px;align-items:center;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;">
+
+      <!-- Size slider -->
+      <div style="
+        display:flex;align-items:center;gap:8px;flex-shrink:0;
+        background:var(--bg-ctrl);border-radius:10px;padding:6px 12px;
+      ">
+        <span style="font-size:10px;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;">Size</span>
+        <input id="size" type="range" min="18" max="96" value="35" style="width:80px;" />
+        <span id="sizeVal" style="font-size:10px;font-family:'Roboto Mono';color:var(--text-muted);width:32px;">35px</span>
+      </div>
+
+      <!-- Tracking slider -->
+      <div style="
+        display:flex;align-items:center;gap:8px;flex-shrink:0;
+        background:var(--bg-ctrl);border-radius:10px;padding:6px 12px;
+      ">
+        <span style="font-size:10px;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;">Track</span>
+        <input id="track" type="range" min="-1" max="6" step="0.5" value="0" style="width:60px;" />
+        <span id="trackVal" style="font-size:10px;font-family:'Roboto Mono';color:var(--text-muted);width:20px;">0</span>
+      </div>
+
+      <!-- Preview text input -->
+      <div style="
+        display:flex;align-items:center;gap:6px;flex-shrink:0;
+        background:var(--bg-ctrl);border-radius:10px;padding:6px 12px;
+      ">
+        <span class="material-symbols-outlined" style="font-size:16px;color:var(--text-faint);">text_fields</span>
+        <input id="sample" type="text" value="It's37!?&* [)>" class="text-input" style="width:130px;font-size:12px;" />
+      </div>
+
+      <!-- Sort select -->
+      <select id="sort" style="flex-shrink:0;font-size:11px;">
+        <option value="name">A → Z</option>
+        <option value="source">By Source</option>
+      </select>
 
     </div>
-    <label class="inline-flex items-center gap-3 select-none cursor-pointer ts-text">
-      <span class="text-sm">Light</span>
-      <input id="dm" type="checkbox" class="hidden" />
-      <span class="dm-track"><span class="dm-knob"></span></span>
-      <span class="text-sm">Dark</span>
-    </label>
-  </header>
+  </div>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-    <section class="grid gap-4 md:grid-cols-12 items-end mb-6">
-      <div class="md:col-span-9 ts-panel border rounded-2xl p-4 shadow-soft">
-        <label class="block text-sm font-medium ts-text">Search by name, source, tags, emotion, category, or notes</label>
-        <input id="q" type="text" placeholder="e.g. Wild Words, sfx, google, horror, dialog"
-          class="mt-2 w-full rounded-xl ts-input px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-      </div>
 
-      <div class="md:col-span-3 ts-panel border rounded-2xl p-4 shadow-soft">
-        <label class="block text-sm font-medium ts-text">Sort</label>
-        <select id="sort" class="mt-2 w-full rounded-xl ts-input px-3 py-2">
-          <option value="name">A → Z</option>
-          <option value="source">Source</option>
-        </select>
-      </div>
-    </section>
+  <!-- ── Advanced search panel (collapsible) ── -->
+  <div id="adv-panel">
+    <div class="adv-section-label">Emotion / Mood</div>
+    <div id="emo-cloud"></div>
+    <div class="adv-section-label">Tags</div>
+    <div id="tag-cloud"></div>
+  </div>
 
-    <section class="ts-panel border rounded-2xl shadow-soft p-4 mb-6 grid gap-3 md:grid-cols-12">
-      <div class="md:col-span-5">
-        <label class="block text-sm font-medium ts-text">Preview text</label>
-        <input id="sample" type="text" value="It's37!?&* [)>" class="mt-2 w-full rounded-xl ts-input px-3 py-2" />
-        <div class="mt-2 flex gap-3 text-sm ts-muted">
-          <label class="inline-flex items-center gap-2"><input id="upper" type="checkbox" /> UPPERCASE</label>
-          <label class="inline-flex items-center gap-2"><input id="stroke" type="checkbox" /> Stroke</label>
+  <!-- count info -->
+
+  <div style="
+    padding:14px 20px 6px;
+    display:flex;justify-content:space-between;align-items:center;
+  ">
+    <span id="count-lbl" style="font-size:11px;font-family:'Roboto Mono';color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;"></span>
+    <span style="font-size:11px;color:var(--text-faint);">Click name to copy · link icon opens source</span>
+  </div>
+
+  <!-- ── Masonry grid ── -->
+  <div style="padding:4px 20px 80px;" class="md:pb-12">
+    <div id="grid" class="masonry"></div>
+  </div>
+
+  <!-- ── How to use ── -->
+  <section id="how-to-use" style="
+    margin:0 20px 32px;padding:32px;
+    background:var(--bg-card);border-radius:20px;
+  ">
+    <h2 style="font-size:20px;font-weight:700;margin-bottom:8px;">How to use this handbook</h2>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:28px;">A quick reference for manga &amp; comics typesetters.</p>
+    <div style="display:grid;gap:24px;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));">
+      <div>
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--bg-chip-sel);display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
+          <span class="material-symbols-outlined" style="color:var(--chip-sel-fg);font-size:18px;">chat_bubble</span>
         </div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Pick your category</div>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;">Dialogue fonts should be legible; SFX can be louder and more expressive.</p>
       </div>
-      <div class="md:col-span-4 grid grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium ts-text">Font size (<span id="sizeVal">35</span>px)</label>
-          <input id="size" type="range" min="18" max="96" value="35" class="w-full" />
+      <div>
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--bg-chip-sel);display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
+          <span class="material-symbols-outlined" style="color:var(--chip-sel-fg);font-size:18px;">title</span>
         </div>
-        <div>
-          <label class="block text-sm font-medium ts-text">Letter spacing (<span id="trackVal">0</span>px)</label>
-          <input id="track" type="range" min="-1" max="6" step="0.5" value="0" class="w-full" />
+        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Use UPPERCASE</div>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;">English dialogue is typically set in uppercase — toggle AA to preview.</p>
+      </div>
+      <div>
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--bg-chip-sel);display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
+          <span class="material-symbols-outlined" style="color:var(--chip-sel-fg);font-size:18px;">bolt</span>
         </div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">SFX &amp; Shouting</div>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;">Bold, tight tracking + stroke. Test at your actual print resolution.</p>
       </div>
-      <div class="md:col-span-3">
-        <p class="text-sm ts-muted">Tip: If a font is not installed and not from Google Fonts, the preview uses a
-          fallback. Click a name to copy it. Use the link icon to open its source page.</p>
+      <div>
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--bg-chip-sel);display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
+          <span class="material-symbols-outlined" style="color:var(--chip-sel-fg);font-size:18px;">gavel</span>
+        </div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Check the license</div>
+        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;">DaFont and Blambot fonts — verify commercial rights before publishing.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="grid" class="grid auto-rows-auto sm:grid-cols-2 lg:grid-cols-3 gap-4"></section>
-    <section class="mt-10 ts-panel border rounded-2xl shadow-soft p-6">
-      <h2 class="text-xl font-semibold ts-text">How to use this guide</h2>
-      <ol class="list-decimal pl-6 mt-3 space-y-2 ts-muted">
-        <li>Pick a <span class="font-semibold ts-text">category</span> first (dialog vs SFX). Dialog fonts should be
-          legible; SFX can be louder.</li>
-        <li>Use <span class="font-semibold ts-text">UPPERCASE</span> for English dialogue unless your project differs.
-        </li>
-        <li><span class="font-semibold ts-text">Shouting</span>: bold sans fonts with tighter tracking, optional stroke.
-        </li>
-        <li><span class="font-semibold ts-text">SFX</span>: test outlines and readability at print resolution.</li>
-        <li>Always <span class="font-semibold ts-text">check the license</span>, especially for DaFont/Blambot fonts.
-        </li>
-      </ol>
-    </section>
-  </main>
-  <script src="font.js"></script>
-  <script>
-    // ================ FONT LOADERS ================
-    function loadGoogleFontIfNeeded(name) {
-      if (document.querySelector(`link[data-font='${name}']`)) return;
-      const f = FONTS.find(f => f.name === name);
-      if (!f || f.source !== 'google') return;
-      const link = document.createElement('link');
-      link.dataset.font = name;
-      link.href = `https://fonts.googleapis.com/css2?family=${name.replaceAll(' ', '+')}:wght@400;600;700&display=swap`;
-      link.rel = 'stylesheet';
-      document.head.appendChild(link);
-    }
+  <!-- ── Footer ── -->
+  <footer id="page-footer" style="padding:20px 24px;">
+    <div style="
+      display:flex;flex-wrap:wrap;justify-content:space-between;
+      align-items:center;gap:12px;opacity:.6;
+      font-size:11px;font-family:'Roboto Mono';text-transform:uppercase;letter-spacing:.08em;
+    ">
+      <span>The Editorial Archive · Typesetter Handbook by Saki</span>
+      <a href="https://forms.gle/RXnsY6APGu7Z74f38" target="_blank" rel="noopener"
+         style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:4px;">
+        Submit a Font <span class="material-symbols-outlined" style="font-size:13px;">open_in_new</span>
+      </a>
+    </div>
+  </footer>
+</main>
 
-    function loadFontEmbed(item) {
-      if (!item.embed) return;
-      const style = document.createElement('style');
-      const isWOFF = /\.woff2?$/.test(item.embed);
-      const format = isWOFF ? (item.embed.endsWith('2') ? 'woff2' : 'woff') : 'truetype';
-      style.textContent = `@font-face{font-family:'${item.name}';src:url('${item.embed}') format('${format}');font-display:swap;}`;
-      document.head.appendChild(style);
-    }
+<!-- ═══════════════════ MOBILE BOTTOM NAV ═══════════════════ -->
+<div class="md:hidden glass" style="
+  position:fixed;bottom:0;left:0;width:100%;
+  height:60px;z-index:50;
+  display:flex;justify-content:space-around;align-items:center;
+  border-top:1px solid var(--border);
+">
+  <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:var(--tint);cursor:pointer;">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">explore</span>
+    <span style="font-size:9px;font-weight:700;">Explore</span>
+  </button>
+  <button onclick="document.getElementById('how-to-use').scrollIntoView({behavior:'smooth'})"
+    style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:var(--text-muted);cursor:pointer;">
+    <span class="material-symbols-outlined">auto_stories</span>
+    <span style="font-size:9px;font-weight:700;">Handbook</span>
+  </button>
+  <a href="https://forms.gle/RXnsY6APGu7Z74f38" target="_blank" rel="noopener"
+     style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--text-muted);text-decoration:none;">
+    <span class="material-symbols-outlined">add_circle</span>
+    <span style="font-size:9px;font-weight:700;">Submit</span>
+  </a>
+</div>
 
-    async function ensureFont(item) {
-      if (item.source === 'google') loadGoogleFontIfNeeded(item.name); else loadFontEmbed(item);
-      await document.fonts.ready;
-      try { await document.fonts.load(`16px '${item.name}'`); } catch (e) { }
-      return document.fonts.check(`16px '${item.name}'`);
-    }
+<!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+<script src="font.js"></script>
+<script>
+  // ── State ────────────────────────────────────────────────────────
+  let activeCat   = '';
+  let activeSrc   = '';
+  let isUpper     = false;
+  let isStroke    = false;
+  let activeTags  = new Set(); // advanced search selected tags/emos
 
-    const grid = document.getElementById('grid');
-    const q = document.getElementById('q');
-    const sample = document.getElementById('sample');
-    const upper = document.getElementById('upper');
-    const size = document.getElementById('size');
-    const track = document.getElementById('track');
-    const stroke = document.getElementById('stroke');
-    const sizeVal = document.getElementById('sizeVal');
-    const trackVal = document.getElementById('trackVal');
-    const sortSel = document.getElementById('sort');
+  // ── DOM refs ─────────────────────────────────────────────────────
+  const grid      = document.getElementById('grid');
+  const qEl       = document.getElementById('q');
+  const sampleEl  = document.getElementById('sample');
+  const sizeEl    = document.getElementById('size');
+  const trackEl   = document.getElementById('track');
+  const sizeValEl = document.getElementById('sizeVal');
+  const trackValEl= document.getElementById('trackVal');
+  const countLbl  = document.getElementById('count-lbl');
+  const sortSel   = document.getElementById('sort');
+  const upperBtn  = document.getElementById('upper-btn');
+  const strokeBtn = document.getElementById('stroke-btn');
+  const dmBtn     = document.getElementById('dm-btn');
 
-    // ================= RENDER =================
-    function matchesFilter(item) {
-      const text = (q.value || '').toLowerCase();
-      // Filter now searches name, source, tags, emo, cat, and notes
+  // ── Dark mode ─────────────────────────────────────────────────────
+  dmBtn.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    dmBtn.querySelector('.material-symbols-outlined').textContent = isDark ? 'light_mode' : 'dark_mode';
+  });
+
+  // ── Font loaders (fire-and-forget, non-blocking) ──────────────────
+  const _loadedFonts = new Set();
+
+  function loadGoogleFontLink(name) {
+    if (_loadedFonts.has(name)) return;
+    _loadedFonts.add(name);
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(name).replaceAll('%20','+')}:wght@400;700&display=swap`;
+    document.head.appendChild(link);
+  }
+
+  function loadEmbedFont(item) {
+    if (_loadedFonts.has(item.name) || !item.embed) return;
+    _loadedFonts.add(item.name);
+    const isWOFF = /\.woff2?$/i.test(item.embed);
+    const fmt = isWOFF ? (item.embed.endsWith('2') ? 'woff2' : 'woff') : 'truetype';
+    const s = document.createElement('style');
+    s.textContent = `@font-face{font-family:'${item.name}';src:url('${item.embed}') format('${fmt}');font-display:swap;}`;
+    document.head.appendChild(s);
+  }
+
+  function kickFonts(items) {
+    // Fire ALL font loads in parallel — browser handles deduplication
+    items.forEach(item => {
+      if (item.source === 'google') loadGoogleFontLink(item.name);
+      else loadEmbedFont(item);
+    });
+  }
+
+  // ── Build a single card (synchronous) ────────────────────────────
+  function buildCard(item) {
+    const allTags = [...new Set([...(item.tags||[]), ...(item.emo||[]), ...(item.cat||[])])];
+
+    const card = document.createElement('div');
+    card.className = 'font-card';
+
+    // — Header row —
+    const hdr = document.createElement('div');
+    hdr.style.cssText = 'display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:8px;';
+
+    const nameWrap = document.createElement('div');
+    nameWrap.style.cssText = 'min-width:0;flex:1;';
+
+    const copyBtn = document.createElement('button');
+    copyBtn.style.cssText = `
+      background:none;border:none;cursor:pointer;
+      font-size:15px;font-weight:700;letter-spacing:-.01em;
+      color:var(--text);text-align:left;
+      transition:color .15s;padding:0;line-height:1.3;
+    `;
+    copyBtn.title = 'Click to copy font name';
+    copyBtn.textContent = item.name;
+    copyBtn.onmouseover = () => copyBtn.style.color = 'var(--tint)';
+    copyBtn.onmouseout  = () => copyBtn.style.color = 'var(--text)';
+
+    const srcLabel = document.createElement('div');
+    srcLabel.style.cssText = 'font-size:10px;font-family:"Roboto Mono";color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;';
+    srcLabel.textContent = item.source;
+
+    nameWrap.append(copyBtn, srcLabel);
+
+    const linkBtn = document.createElement('a');
+    linkBtn.href = item.url;
+    linkBtn.target = '_blank';
+    linkBtn.rel = 'noopener';
+    linkBtn.title = `Open ${item.name} source page`;
+    linkBtn.style.cssText = `
+      flex-shrink:0;width:30px;height:30px;border-radius:8px;
+      border:1px solid var(--border);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--text-faint);transition:color .15s,background .15s;
+      text-decoration:none;
+    `;
+    linkBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;">open_in_new</span>';
+    linkBtn.onmouseover = () => { linkBtn.style.color='var(--text)'; linkBtn.style.background='var(--bg-ctrl)'; };
+    linkBtn.onmouseout  = () => { linkBtn.style.color='var(--text-faint)'; linkBtn.style.background=''; };
+
+    hdr.append(nameWrap, linkBtn);
+
+    // — Preview area —
+    const previewWrap = document.createElement('div');
+    previewWrap.className = 'preview-wrap';
+    previewWrap.style.cssText = 'padding:20px 0;border-bottom:1px solid var(--border);margin-bottom:14px;transition:background .15s,padding .15s,border-radius .15s,margin .15s;';
+    if (isStroke) previewWrap.classList.add('stroke-active');
+
+    const previewText = document.createElement('div');
+    previewText.className = 'preview-text';
+    previewText.dataset.font = item.name;
+    previewText.textContent = sampleEl.value || 'Sample';
+    applyPreviewStyle(previewText, item.name);
+
+    previewWrap.appendChild(previewText);
+
+    // — Tags —
+    const tagsRow = document.createElement('div');
+    tagsRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;';
+    allTags.slice(0, 6).forEach(t => {
+      const span = document.createElement('span');
+      span.className = 'tag' + ((item.cat||[]).includes(t) ? ' cat' : '');
+      span.textContent = t;
+      tagsRow.appendChild(span);
+    });
+
+    // — Notes —
+    const notes = document.createElement('p');
+    notes.style.cssText = 'font-size:11px;color:var(--text-faint);line-height:1.5;margin:0;';
+    notes.textContent = item.notes || '';
+
+    // — Copy feedback —
+    const copyFb = document.createElement('span');
+    copyFb.style.cssText = 'font-size:10px;font-family:"Roboto Mono";color:var(--tint);opacity:0;transition:opacity .2s;display:block;margin-top:6px;height:14px;';
+    copyFb.textContent = '✓ Copied!';
+
+    card.append(hdr, previewWrap, tagsRow, notes, copyFb);
+
+    // copy on click
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(item.name);
+        copyFb.style.opacity = '1';
+        copyFb.classList.add('flashing');
+        setTimeout(() => { copyFb.style.opacity = '0'; copyFb.classList.remove('flashing'); }, 1600);
+      } catch(e) {}
+    });
+
+    return card;
+  }
+
+  // ── Apply preview style to text el + its wrapper ─────────────────
+  function applyPreviewStyle(el, fontName) {
+    el.style.fontFamily    = `'${fontName}', system-ui, sans-serif`;
+    el.style.fontSize      = sizeEl.value + 'px';
+    el.style.letterSpacing = trackEl.value + 'px';
+    el.style.textTransform = isUpper ? 'uppercase' : 'none';
+    el.classList.toggle('stroke', isStroke);
+    // Sync wrapper stroke-active class
+    const wrap = el.closest('.preview-wrap');
+    if (wrap) wrap.classList.toggle('stroke-active', isStroke);
+  }
+
+  // ── Update all existing preview styles (sliders/toggles) ─────────
+  function updatePreviews() {
+    grid.querySelectorAll('.preview-text').forEach(el => {
+      el.textContent = sampleEl.value || 'Sample';
+      applyPreviewStyle(el, el.dataset.font);
+    });
+  }
+
+  // ── Filter & sort ─────────────────────────────────────────────────
+  function matchesFilter(item) {
+    const q = (qEl.value || '').toLowerCase().trim();
+    if (q) {
       const hay = [
-        item.name, 
-        item.source, 
-        ...(item.tags || []), 
-        ...(item.emo || []), 
-        ...(item.cat || []), 
+        item.name, item.source,
+        ...(item.tags||[]), ...(item.emo||[]), ...(item.cat||[]),
         item.notes || ''
       ].join(' ').toLowerCase();
-      return hay.includes(text);
+      if (!hay.includes(q)) return false;
+    }
+    if (activeCat) {
+      const cats = [...(item.tags||[]), ...(item.cat||[])].join(' ').toLowerCase();
+      if (!cats.includes(activeCat)) return false;
+    }
+    if (activeSrc && item.source !== activeSrc) return false;
+    // Advanced tag filter: item must match ANY selected tag/emo (OR logic)
+    if (activeTags.size > 0) {
+      const all = [...(item.tags||[]), ...(item.emo||[]), ...(item.cat||[])];
+      if (!all.some(t => activeTags.has(t))) return false;
+    }
+    return true;
+  }
+
+  // ── Build advanced search tag clouds ─────────────────────────────
+  function buildTagClouds() {
+    const emoCount = new Map();
+    const tagCount = new Map();
+    FONTS.forEach(f => {
+      (f.emo||[]).forEach(e => emoCount.set(e, (emoCount.get(e)||0) + 1));
+      (f.tags||[]).forEach(t => tagCount.set(t, (tagCount.get(t)||0) + 1));
+    });
+    const sorted = (map) => [...map.entries()].sort((a,b) => b[1]-a[1]).map(([k])=>k);
+
+    function makeChip(label, container) {
+      const btn = document.createElement('button');
+      btn.className = 'adv-chip';
+      btn.textContent = label;
+      btn.addEventListener('click', () => {
+        if (activeTags.has(label)) {
+          activeTags.delete(label);
+          btn.classList.remove('active');
+        } else {
+          activeTags.add(label);
+          btn.classList.add('active');
+        }
+        updateAdvCount();
+        render();
+      });
+      container.appendChild(btn);
     }
 
-    function doSort(a, b) {
-      const mode = sortSel?.value || 'name';
-      if (mode === 'source') return a.source.localeCompare(b.source) || a.name.localeCompare(b.name);
-      return a.name.localeCompare(b.name);
-    }
+    const emoCloud = document.getElementById('emo-cloud');
+    const tagCloud = document.getElementById('tag-cloud');
+    sorted(emoCount).forEach(e => makeChip(e, emoCloud));
+    sorted(tagCount).slice(0, 30).forEach(t => makeChip(t, tagCloud));
+  }
 
-    function applyPreviewStyle(el, fontName) {
-      el.style.fontFamily = `'${fontName}', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif`;
-      el.style.fontSize = (size?.value || 35) + 'px';
-      el.style.letterSpacing = (track?.value || 0) + 'px';
-      el.style.textTransform = upper?.checked ? 'uppercase' : 'none';
-      if (stroke?.checked) {
-        el.classList.add('with-stroke');
-        el.style.setProperty('--stroke', '#000');
-        el.style.color = '#fff';
-        el.style.padding = '6px 8px';
-        el.style.background = '#111';
-      } else {
-        el.classList.remove('with-stroke');
-        el.style.removeProperty('--stroke');
-        el.style.color = 'inherit';
-        el.style.background = 'transparent';
-        el.style.padding = '0';
-      }
-    }
+  function updateAdvCount() {
+    const n = activeTags.size;
+    const advBtn = document.getElementById('adv-btn');
+    const icon = advBtn.querySelector('.material-symbols-outlined');
+    advBtn.classList.toggle('active', n > 0 || document.getElementById('adv-panel').classList.contains('open'));
+    advBtn.childNodes[advBtn.childNodes.length-1].nodeValue = n > 0 ? ` Advanced (${n})` : ' Advanced';
+  }
 
-    async function render() {
-      grid.innerHTML = '';
-      const data = FONTS.filter(matchesFilter).sort(doSort);
-      for (const item of data) {
-        const ok = await ensureFont(item);
-        const card = document.createElement('article');
-        card.className = 'ts-panel border rounded-2xl p-4 shadow-soft mb-4 break-inside-avoid';
-        
-        const allTags = [...(item.tags || []), ...(item.emo || []), ...(item.cat || [])];
-        const uniqueTags = Array.from(new Set(allTags));
+  function doSort(a, b) {
+    if (sortSel.value === 'source') return a.source.localeCompare(b.source) || a.name.localeCompare(b.name);
+    return a.name.localeCompare(b.name);
+  }
 
-        const header = document.createElement('div');
-        header.className = 'flex items-start justify-between gap-3';
-        header.innerHTML = `
-          <div>
-            <button class="font-semibold hover:underline ts-text" title="Click to copy">${item.name}${ok ? '' : ' <span title="Font failed to load">⚠️</span>'}</button>
-            <div class="mt-1 flex flex-wrap gap-2 text-xs">
-              ${uniqueTags.slice(0, 5).map(t => `<span class='ts-badge ts-border inline-block px-2 py-0.5 text-xs rounded-full border'>${t}</span>`).join('')}
-              <span class='ts-badge ts-border inline-block px-2 py-0.5 text-xs rounded-full border'>${item.source}</span>
-            </div>
-          </div>
-          <a href="${item.url}" target="_blank" rel="noopener" class="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-xl ts-border border hover:opacity-80" title="Open source page" aria-label="Open link">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ts-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="m15 3 6 0 0 6"/><path d="M10 14 21 3"/></svg>
-          </a>`;
+  // ── RENDER — fully synchronous, no awaiting ───────────────────────
+  function render() {
+    const data = FONTS.filter(matchesFilter).sort(doSort);
+    countLbl.textContent = `${data.length} font${data.length !== 1 ? 's' : ''}`;
 
-        const preview = document.createElement('div');
-        preview.className = 'font-preview ts-preview rounded-xl p-4';
-        const line = document.createElement('div');
-        line.textContent = (sample?.value || 'Sample');
-        applyPreviewStyle(line, item.name);
-        preview.appendChild(line);
+    // 1. Kick all font loads in parallel (fire-and-forget)
+    kickFonts(data);
 
-        const meta = document.createElement('p');
-        meta.className = 'text-xs ts-muted';
-        meta.textContent = item.notes || '';
+    // 2. Build all cards synchronously into a fragment
+    const frag = document.createDocumentFragment();
+    data.forEach(item => frag.appendChild(buildCard(item)));
 
-        card.append(header, preview, meta);
-        grid.appendChild(card);
+    // 3. Single DOM write
+    grid.innerHTML = '';
+    grid.appendChild(frag);
+  }
 
-        const copyBtn = header.querySelector('button');
-        copyBtn.addEventListener('click', async () => {
-          try {
-            await navigator.clipboard.writeText(item.name);
-            copyBtn.innerHTML = item.name + ' ✓';
-            setTimeout(() => copyBtn.innerHTML = item.name + (ok ? '' : ' <span title="Font failed to load">⚠️</span>'), 1000);
-          } catch (e) { }
-        });
-      }
-    }
-
-    // EVENTS
-    ;[q, sample, upper, size, track, stroke, sortSel].forEach(el => el?.addEventListener('input', () => {
-      if (sizeVal) sizeVal.textContent = size.value;
-      if (trackVal) trackVal.textContent = track.value;
+  // ── Category nav ─────────────────────────────────────────────────
+  document.querySelectorAll('#cat-filters button[data-cat]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCat = btn.dataset.cat;
+      document.querySelectorAll('#cat-filters button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
       render();
-    }));
+    });
+  });
 
-    const dm = document.getElementById('dm');
-    function applyTheme() { document.documentElement.classList.toggle('is-dark', dm.checked); }
-    dm.addEventListener('change', applyTheme);
+  // ── Source chips ─────────────────────────────────────────────────
+  document.querySelectorAll('#src-filters button[data-src]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeSrc = btn.dataset.src;
+      document.querySelectorAll('#src-filters button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    });
+  });
 
-    // Init
-    applyTheme();
+  // ── Advanced panel toggle ─────────────────────────────────────────
+  document.getElementById('adv-btn').addEventListener('click', () => {
+    const panel = document.getElementById('adv-panel');
+    const isOpen = panel.classList.toggle('open');
+    const advBtn = document.getElementById('adv-btn');
+    advBtn.classList.toggle('active', isOpen || activeTags.size > 0);
+  });
+
+  // ── Reset ─────────────────────────────────────────────────────────
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    activeCat = ''; activeSrc = '';
+    isUpper = false; isStroke = false;
+    activeTags.clear();
+    document.querySelectorAll('.adv-chip').forEach(c => c.classList.remove('active'));
+    document.getElementById('adv-panel').classList.remove('open');
+    qEl.value = '';
+    sizeEl.value = 35; sizeValEl.textContent = '35px';
+    trackEl.value = 0; trackValEl.textContent = '0';
+    sampleEl.value = "It's37!?&* [)>";
+    sortSel.value = 'name';
+    upperBtn.classList.remove('active');
+    strokeBtn.classList.remove('active');
+    document.getElementById('adv-btn').classList.remove('active');
+    document.querySelector('#adv-btn').childNodes[document.querySelector('#adv-btn').childNodes.length-1].nodeValue = ' Advanced';
+    document.querySelectorAll('#cat-filters button').forEach((b,i) => {
+      b.classList.toggle('active', i === 0);
+    });
+    document.querySelectorAll('#src-filters button').forEach((b,i) => {
+      b.classList.toggle('active', i === 0);
+    });
     render();
-  </script>
-</body>
+  });
 
+  // ── Toggle buttons ────────────────────────────────────────────────
+  upperBtn.addEventListener('click', () => {
+    isUpper = !isUpper;
+    upperBtn.classList.toggle('active', isUpper);
+    updatePreviews();
+  });
+
+  strokeBtn.addEventListener('click', () => {
+    isStroke = !isStroke;
+    strokeBtn.classList.toggle('active', isStroke);
+    updatePreviews();
+  });
+
+  // ── Sliders & text inputs — update existing cards, don't re-render
+  sizeEl.addEventListener('input', () => {
+    sizeValEl.textContent = sizeEl.value + 'px';
+    updatePreviews();
+  });
+  trackEl.addEventListener('input', () => {
+    trackValEl.textContent = trackEl.value;
+    updatePreviews();
+  });
+  sampleEl.addEventListener('input', updatePreviews);
+
+  // ── Search & sort — need full re-render ─────────────────────────
+  qEl.addEventListener('input', render);
+  sortSel.addEventListener('change', render);
+
+  // ── Init ──────────────────────────────────────────────────────────
+  buildTagClouds();
+  render();
+</script>
+</body>
 </html>
