@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Typesetter Style Presets — The Editorial Archive</title>
+  <title>Saki's Typesetter Handbook</title>
   <meta name="description" content="Curated font presets for manga & comics typesetting. Filter, preview, and copy font names." />
 
   <!-- Google Fonts UI — cloud only, no local files -->
@@ -295,12 +295,10 @@
 
 <!-- ═══════════════════ TOP NAV ═══════════════════ -->
 <nav id="topnav" class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16">
-  <div style="font-size:18px;font-weight:800;letter-spacing:-.03em;">The Editorial Archive</div>
+  <div style="font-size:18px;font-weight:800;letter-spacing:-.03em;">Saki's Typesetter Handbook</div>
 
   <div class="hidden md:flex items-center gap-8" style="font-size:13px;font-weight:500;">
     <a href="#" style="border-bottom:2px solid var(--text);padding-bottom:2px;color:var(--text)">Explorer</a>
-    <!-- Handbook disabled — coming soon -->
-    <span title="Coming soon" style="color:var(--text-faint);cursor:not-allowed;">Handbook</span>
     <a href="https://forms.gle/RXnsY6APGu7Z74f38" target="_blank" rel="noopener"
        style="color:var(--text-muted);display:flex;align-items:center;gap:4px;"
        class="hover:text-current transition-colors">
@@ -504,45 +502,6 @@
     <div id="grid" class="masonry"></div>
   </div>
 
-  <!-- ── How to use ── -->
-  <section id="how-to-use" style="
-    margin:0 20px 32px;padding:32px;
-    background:var(--bg-card);border-radius:20px;
-  ">
-    <h2 style="font-size:20px;font-weight:700;margin-bottom:8px;">How to use this handbook</h2>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:28px;">A quick reference for manga &amp; comics typesetters.</p>
-    <div style="display:grid;gap:24px;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));">
-      <div>
-        <div style="width:36px;height:36px;border-radius:50%;background:var(--bg-chip-sel);display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
-          <span class="material-symbols-outlined" style="color:var(--chip-sel-fg);font-size:18px;">chat_bubble</span>
-        </div>
-        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Pick your category</div>
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;">Dialogue fonts should be legible; SFX can be louder and more expressive.</p>
-      </div>
-      <div>
-        <div style="width:36px;height:36px;border-radius:50%;background:var(--bg-chip-sel);display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
-          <span class="material-symbols-outlined" style="color:var(--chip-sel-fg);font-size:18px;">title</span>
-        </div>
-        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Use UPPERCASE</div>
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;">English dialogue is typically set in uppercase — toggle AA to preview.</p>
-      </div>
-      <div>
-        <div style="width:36px;height:36px;border-radius:50%;background:var(--bg-chip-sel);display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
-          <span class="material-symbols-outlined" style="color:var(--chip-sel-fg);font-size:18px;">bolt</span>
-        </div>
-        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">SFX &amp; Shouting</div>
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;">Bold, tight tracking + stroke. Test at your actual print resolution.</p>
-      </div>
-      <div>
-        <div style="width:36px;height:36px;border-radius:50%;background:var(--bg-chip-sel);display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
-          <span class="material-symbols-outlined" style="color:var(--chip-sel-fg);font-size:18px;">gavel</span>
-        </div>
-        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Check the license</div>
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.6;">DaFont and Blambot fonts — verify commercial rights before publishing.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- ── Footer ── -->
   <footer id="page-footer" style="padding:20px 24px;">
     <div style="
@@ -550,7 +509,7 @@
       align-items:center;gap:12px;opacity:.6;
       font-size:11px;font-family:'Roboto Mono';text-transform:uppercase;letter-spacing:.08em;
     ">
-      <span>The Editorial Archive · Typesetter Handbook by Saki</span>
+      <span>Saki's Typesetter Handbook</span>
       <a href="https://forms.gle/RXnsY6APGu7Z74f38" target="_blank" rel="noopener"
          style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:4px;">
         Submit a Font <span class="material-symbols-outlined" style="font-size:13px;">open_in_new</span>
@@ -570,10 +529,10 @@
     <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">explore</span>
     <span style="font-size:9px;font-weight:700;">Explore</span>
   </button>
-  <button onclick="document.getElementById('how-to-use').scrollIntoView({behavior:'smooth'})"
+  <button id="dm-btn-mobile" onclick="document.getElementById('dm-btn').click()"
     style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:var(--text-muted);cursor:pointer;">
-    <span class="material-symbols-outlined">auto_stories</span>
-    <span style="font-size:9px;font-weight:700;">Handbook</span>
+    <span class="material-symbols-outlined">dark_mode</span>
+    <span style="font-size:9px;font-weight:700;">Theme</span>
   </button>
   <a href="https://forms.gle/RXnsY6APGu7Z74f38" target="_blank" rel="noopener"
      style="display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--text-muted);text-decoration:none;">
